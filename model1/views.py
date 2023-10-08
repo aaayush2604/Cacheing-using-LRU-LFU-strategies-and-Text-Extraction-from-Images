@@ -1,7 +1,8 @@
 from django.shortcuts import render
 import requests
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import googletrans 
+from django.urls import reverse
 from googletrans import Translator
 from .utils import DLLNode, LRU_Cache
 
@@ -9,7 +10,6 @@ from .utils import DLLNode, LRU_Cache
 # Create your views here.
 translator=Translator()
 language_list=googletrans.LANGUAGES
-
 cache= dict()
 main_cache=LRU_Cache(10)
     
@@ -33,12 +33,17 @@ def home(request):
             output= get_translation_lru(text,source,destination)
         else:
             output="Input is Empty"
-        return render(request,"model1/home.html",{
-            "output":output,
-            "language_list":list(language_list.items())
-        })
+
+        request.session['output']=output
+        return HttpResponseRedirect(reverse('output'))
     else:
         return render(request,"model1/home.html",{
             "language_list":list(language_list.items())
         })
+
+
+def output(request):
+    return render(request, "model1/output.html", {
+        "output_final":request.session['output']
+    })
 
