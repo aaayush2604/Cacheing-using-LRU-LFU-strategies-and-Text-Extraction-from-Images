@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translator</title>
+</head>
+<body>
+    <h1>Translate between Languages</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <select name="src-lang">
+            {% for x in language_list %}
+                {% if x.0 == "en" %}
+                    <option value="{{x.0}}" selected>{{x.1}}</option>
+                {% else %}
+                    <option value="{{x.0}}">{{x.1}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+        <select name="dest-lang">
+            {% for y in language_list %}
+                {% if y.0 == "es" %}
+                    <option value="{{y.0}}" selected>{{y.1}}</option>
+                {% else %}
+                    <option value="{{y.0}}">{{y.1}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+        <input type="text" name="input">
+        <button type="submit">Translate</button>
+    </form>
+    {% if output %}
+        <h2>{{output}}</h2>
+        
+    {% endif %}
+    <script>
+        
+    </script>
+</body>
+</html>
