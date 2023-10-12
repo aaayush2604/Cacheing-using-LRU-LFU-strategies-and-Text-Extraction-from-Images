@@ -5,6 +5,16 @@ import googletrans
 from django.urls import reverse
 from googletrans import Translator
 from .utils import DLLNode, LRU_Cache
+import os 
+import pytesseract
+import cv2
+from PIL import Image
+from pytesseract import Output
+import googletrans 
+from googletrans import Translator
+import json
+
+
 
 
 # Create your views here.
@@ -22,6 +32,7 @@ def get_translation_lru(text_input,src_lang, dest_lang):
         output=translation.text
         main_cache.set(text_input, output)
         return output
+    
 
 
 def home(request):
@@ -46,4 +57,32 @@ def output(request):
     return render(request, "model1/output.html", {
         "output_final":request.session['output']
     })
+
+def give_img(request):
+    if(request.method=="POST"):
+        uploaded_file=request.FILES['file']
+
+        if uploaded_file:
+            # Define the path where you want to save the uploaded file
+            upload_path = os.path.join(r'D:/Naa Hi Pucho toh Behatr/Web/Practice/Cacheing-using-LRU-LFU-strategies-and-Text-Extraction-from-Images', uploaded_file.name)
+
+            with open(upload_path, 'wb') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+
+            img=cv2.imread(upload_path)
+            pil_image = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+            myconfig="--psm 6 --oem 3"
+            text=pytesseract.image_to_string(pil_image, config=myconfig)
+            if text:
+                output=get_translation_lru(text,'en','es')
+            else:
+                output="No text detected in Image"
+            # Redirect or render a success page
+            request.session['output']=output
+            return HttpResponseRedirect(reverse('output'))
+            
+
+    return render(request,"model1/give_img.html")
 
