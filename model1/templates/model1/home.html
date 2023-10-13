@@ -2,11 +2,12 @@
 {% extends 'model1/layout.html' %}
 
     {% block body %}
-    <h1>Translate between Languages</h1>
+    <a href=""><button><h1>Translate between Languages</h1></button></a>
     <form method="post" class="card">
         {% csrf_token %}
-        
+        Source Language
         <select name="src-lang">
+            
             {% for x in language_list %}
                 {% if x.0 == "en" %}
                     <option value="{{x.0}}" selected>{{x.1}}</option>
@@ -16,6 +17,7 @@
             {% endfor %}
         </select>
         <br>
+        Translation Language
         <select name="dest-lang">
             {% for y in language_list %}
                 {% if y.0 == "es" %}
