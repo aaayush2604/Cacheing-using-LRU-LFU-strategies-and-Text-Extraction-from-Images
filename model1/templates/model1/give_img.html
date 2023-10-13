@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Give Image for Detection</title>
-</head>
-<body>
-    <form action="{% url 'give_img' %}" method="post" enctype="multipart/form-data">
+{% extends 'model1/layout.html' %}
+
+{% block body %}
+    <form action="{% url 'give_img' %}" method="post" enctype="multipart/form-data" class="card">
         {% csrf_token %}
         <input type="file" name="file" accept="image/*">
         <button type="submit">Submit</button>
     </form>
+    <di class="img_button">
     <a href="{% url 'home' %}"><button>Back to Home</button></a>
-</body>
-</html>
+    </di>
+{% endblock %}

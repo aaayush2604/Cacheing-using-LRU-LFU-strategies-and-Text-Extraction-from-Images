@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Output</title>
-</head>
-<body>
-    <pre><h2>{{output_final}}</h2></pre>
+{% extends "model1/layout.html" %}
+
+{% block body %}
+    <pre><h2 class="card">{{output_final}}</h2></pre>
+    <div class="img_button">
     <a href="{% url 'home' %}"><button>Back to Home</button></a>
-</body>
-</html>
+    </div>
+{% endblock %}

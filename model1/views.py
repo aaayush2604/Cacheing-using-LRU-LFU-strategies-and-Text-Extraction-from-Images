@@ -27,20 +27,34 @@ main_cache_lfu=LFU_Cache(10)
 
 def get_translation_lru(text_input,src_lang, dest_lang):
     if text_input in main_cache_lru.map:
-        return main_cache_lru.get(text_input)
+        x=main_cache_lru.get(text_input,dest_lang)
+        if(x!=-1):
+            return x
+        else:
+            translation=translator.translate(text_input,src=src_lang,dest=dest_lang)
+            output=translation.text
+            main_cache_lru.set(text_input, output, dest_lang)
+            return output
     else:
         translation=translator.translate(text_input,src=src_lang,dest=dest_lang)
         output=translation.text
-        main_cache_lru.set(text_input, output)
+        main_cache_lru.set(text_input, output, dest_lang)
         return output
     
 def get_translation_lfu(text_input,src_lang,dest_lang):
     if text_input in main_cache_lfu.map:
-        return main_cache_lfu.get(text_input)
+        x= main_cache_lfu.get(text_input,dest_lang)
+        if(x!=-1):
+            return x
+        else:
+            transaltion=translator.translate(text_input,src=src_lang,dest=dest_lang)
+            output=transaltion.text
+            main_cache_lfu.set(text_input,output,dest_lang)
+            return output
     else:
         transaltion=translator.translate(text_input,src=src_lang,dest=dest_lang)
         output=transaltion.text
-        main_cache_lfu.set(text_input,output)
+        main_cache_lfu.set(text_input,output,dest_lang)
         return output
     
 
