@@ -9,8 +9,6 @@ class DLLNode:
 
 class LRU_Cache:
     def __init__(self, capacity):
-        # capacity:  capacity of cache
-        # Initialize all variable
         self.capacity = capacity
         self.map = {}
         self.head = DLLNode(0, 0,"")
@@ -64,31 +62,26 @@ class LRU_Cache:
 
 class LFU_Cache:
     def __init__(self, capacity):
-        # capacity: capacity of cache
-        # Initialize all variables
         self.capacity = capacity
-        self.map = {}  # Stores key-node mapping
-        self.freq_map = {}  # Stores frequency-doubly linked list mapping
-        self.min_freq = 0  # Track the minimum frequency
-        self.head = DLLNode(0, 0,"")  # Doubly linked list head
-        self.tail = DLLNode(0, 0,"")  # Doubly linked list tail
+        self.map = {}  
+        self.freq_map = {}  
+        self.min_freq = 0  
+        self.head = DLLNode(0, 0,"")  
+        self.tail = DLLNode(0, 0,"") 
         self.head.next = self.tail
         self.tail.prev = self.head
 
     def deleteNode(self, node):
-        # Helper method to delete a node from a doubly linked list
         node.prev.next = node.next
         node.next.prev = node.prev
 
     def addToHead(self, node):
-        # Helper method to add a node to the head of a doubly linked list
         node.next = self.head.next
         node.next.prev = node
         node.prev = self.head
         self.head.next = node
 
     def increaseFrequency(self, node):
-        # Increase the frequency of a node
         node.freq += 1
         self.deleteNode(node)
         if node.freq not in self.freq_map:
@@ -116,11 +109,9 @@ class LFU_Cache:
                 node.val = value
                 self.increaseFrequency(node)
         else:
-            # Create a new node
             node = DLLNode(key, value,language)
             self.map[key] = node
             if len(self.map) > self.capacity:
-                # Remove the least frequently used item
                 while self.min_freq not in self.freq_map or self.freq_map[self.min_freq].next == self.tail:
                     self.min_freq += 1
                 to_remove = self.freq_map[self.min_freq].next
