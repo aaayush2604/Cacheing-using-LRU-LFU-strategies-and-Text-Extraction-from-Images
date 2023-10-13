@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import googletrans 
 from django.urls import reverse
 from googletrans import Translator
-from .utils import DLLNode, LRU_Cache
+from .utils import DLLNode, LRU_Cache, LFU_Cache
 import os 
 import pytesseract
 import cv2
@@ -21,16 +21,26 @@ import json
 translator=Translator()
 language_list=googletrans.LANGUAGES
 cache= dict()
-main_cache=LRU_Cache(10)
+main_cache_lru=LRU_Cache(10)
+main_cache_lfu=LFU_Cache(10)
     
 
 def get_translation_lru(text_input,src_lang, dest_lang):
-    if text_input in main_cache.map:
-        return main_cache.get(text_input)
+    if text_input in main_cache_lru.map:
+        return main_cache_lru.get(text_input)
     else:
         translation=translator.translate(text_input,src=src_lang,dest=dest_lang)
         output=translation.text
-        main_cache.set(text_input, output)
+        main_cache_lru.set(text_input, output)
+        return output
+    
+def get_translation_lfu(text_input,src_lang,dest_lang):
+    if text_input in main_cache_lfu.map:
+        return main_cache_lfu.get(text_input)
+    else:
+        transaltion=translator.translate(text_input,src=src_lang,dest=dest_lang)
+        output=transaltion.text
+        main_cache_lfu.set(text_input,output)
         return output
     
 
@@ -41,7 +51,7 @@ def home(request):
         source=request.POST["src-lang"]
         destination=request.POST["dest-lang"]
         if text:
-            output= get_translation_lru(text,source,destination)
+            output= get_translation_lfu(text,source,destination)
         else:
             output="Input is Empty"
 

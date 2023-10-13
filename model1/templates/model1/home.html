@@ -4,6 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translator</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+            font-size: 36px;
+        }
+
+        .img_button{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            width:100%;
+        }
+
+        .img_button a{
+            width:70%;
+        }
+
+        form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        select, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f7f7f7;
+        }
+
+        input{
+            display: block;
+            width: 94%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f7f7f7;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #28a745;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            width:100%;
+        }
+
+        a button:hover {
+            background-color: #1d9231;
+        }
+    </style>
 </head>
 <body>
     <h1>Translate between Languages</h1>
@@ -33,7 +118,9 @@
         <input type="text" name="input">
         <button type="submit">Translate</button>
     </form>
+    <div class="img_button">
     <a  href="{% url 'give_img' %}"><button>Give Image</button></href></a>
+    </div>
     <script>
         
     </script>
