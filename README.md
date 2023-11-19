@@ -9,3 +9,5 @@ Here I have given the code for a website using django, the website basically doe
 The cache structure is in utils.py in model1 
 The API interecation is done in views.py
 The pytessearct uasage for text extraction is done in views.py
+
+THE PROJECT WEBSITE IS EMPLOYED USING THE DJANGO FRAMEWORK
